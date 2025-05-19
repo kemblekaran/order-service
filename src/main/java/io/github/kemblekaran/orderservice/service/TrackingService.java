@@ -1,8 +1,8 @@
-package io.github.kemblekaran.order_service.service;
+package io.github.kemblekaran.orderservice.service;
 
-import io.github.kemblekaran.order_service.model.TrackingRequest;
-import io.github.kemblekaran.order_service.response.TrackingNumberGeneratorResponse;
-import io.github.kemblekaran.order_service.util.TrackingNumberGenerator;
+import io.github.kemblekaran.orderservice.model.TrackingRequest;
+import io.github.kemblekaran.orderservice.response.TrackingNumberGeneratorResponse;
+import io.github.kemblekaran.orderservice.util.TrackingNumberGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

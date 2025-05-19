@@ -1,4 +1,4 @@
-package io.github.kemblekaran.order_service.model;
+package io.github.kemblekaran.orderservice.model;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.Builder;

@@ -1,4 +1,4 @@
-package io.github.kemblekaran.order_service;
+package io.github.kemblekaran.orderservice;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

@@ -1,4 +1,4 @@
-package io.github.kemblekaran.order_service.response;
+package io.github.kemblekaran.orderservice.response;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

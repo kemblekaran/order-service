@@ -1,6 +1,6 @@
-package io.github.kemblekaran.order_service.exception;
+package io.github.kemblekaran.orderservice.exception;
 
-import io.github.kemblekaran.order_service.response.ApiResponse;
+import io.github.kemblekaran.orderservice.response.ApiResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;

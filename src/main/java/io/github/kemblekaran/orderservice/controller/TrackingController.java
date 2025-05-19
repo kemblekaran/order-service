@@ -1,15 +1,14 @@
-package io.github.kemblekaran.order_service.controller;
+package io.github.kemblekaran.orderservice.controller;
 
-import io.github.kemblekaran.order_service.model.TrackingRequest;
-import io.github.kemblekaran.order_service.response.TrackingNumberGeneratorResponse;
-import io.github.kemblekaran.order_service.service.TrackingService;
+import io.github.kemblekaran.orderservice.model.TrackingRequest;
+import io.github.kemblekaran.orderservice.response.TrackingNumberGeneratorResponse;
+import io.github.kemblekaran.orderservice.service.TrackingService;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
