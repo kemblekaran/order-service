@@ -3,6 +3,10 @@ package io.github.kemblekaran.orderservice.controller;
 import io.github.kemblekaran.orderservice.model.TrackingRequest;
 import io.github.kemblekaran.orderservice.response.TrackingNumberGeneratorResponse;
 import io.github.kemblekaran.orderservice.service.TrackingService;
+import io.github.kemblekaran.orderservice.util.Constants;
+import static io.github.kemblekaran.orderservice.util.Constants.*;
+import io.micrometer.core.instrument.MeterRegistry;
+import io.micrometer.core.instrument.Timer;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,10 +22,13 @@ import java.util.UUID;
 @Slf4j
 public class TrackingController {
 
-    private static final Logger logger = LoggerFactory.getLogger(TrackingController.class);
+    private final TrackingService trackingService;
+    private final MeterRegistry meterRegistry;
 
-    @Autowired
-    private TrackingService trackingService;
+    public TrackingController(TrackingService trackingService, MeterRegistry meterRegistry) {
+        this.trackingService = trackingService;
+        this.meterRegistry = meterRegistry;
+    }
 
     @GetMapping("/next-tracking-number")
     public ResponseEntity<TrackingNumberGeneratorResponse> getNextTrackingNumber(
@@ -33,7 +40,18 @@ public class TrackingController {
             @RequestParam("customer_name") String customerName,
             @RequestParam("customer_slug") String customerSlug
             ) {
-        return ResponseEntity.ok(trackingService.generateTrackingNumber(
+
+        log.info("Received request for next tracking number: origin={}, destination={}, customerId={}", originCountryId, destinationCountryId, customerId);
+
+        Timer.Sample sample = Timer.start(meterRegistry);
+
+        meterRegistry.counter("tracking.controller.requests",
+                Metrics.METRIC_TAG_ORIGIN, originCountryId,
+                Metrics.METRIC_TAG_DESTINATION, destinationCountryId,
+                Metrics.METRIC_TAG_CUSTOMER_ID, customerId
+        ).increment();
+
+        TrackingNumberGeneratorResponse response = trackingService.generateTrackingNumber(
                 TrackingRequest.builder()
                         .originCountryId(originCountryId)
                         .destinationCountryId(destinationCountryId)
@@ -43,6 +61,15 @@ public class TrackingController {
                         .customerSlug(customerSlug)
                         .createdAt(createdAt)
                         .build()
+        );
+
+        sample.stop(meterRegistry.timer("tracking.controller.response.time",
+                Metrics.METRIC_TAG_ORIGIN, originCountryId,
+                Metrics.METRIC_TAG_DESTINATION, destinationCountryId,
+                Metrics.METRIC_TAG_CUSTOMER_ID, customerId
         ));
+
+        log.info("Generated tracking number: {}", response.getTrackingNumber());
+        return ResponseEntity.ok(response);
     }
 }

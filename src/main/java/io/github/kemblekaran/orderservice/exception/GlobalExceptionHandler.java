@@ -40,4 +40,16 @@ public class GlobalExceptionHandler {
                                 "details", exception.getMessage()))
                         .build());
     }
+
+    @ExceptionHandler(RedisGenerateCounterException.class)
+    public ResponseEntity<ApiResponse<Map<String, String>>> handleRedisGenerateCounterException(RedisGenerateCounterException exception) {
+
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(ApiResponse.<Map<String, String>>builder()
+                        .statusCode(HttpStatus.INTERNAL_SERVER_ERROR.value())
+                        .message(HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase())
+                        .error(Map.of("error", HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase(),
+                                "details", exception.getMessage()))
+                        .build());
+    }
 }
